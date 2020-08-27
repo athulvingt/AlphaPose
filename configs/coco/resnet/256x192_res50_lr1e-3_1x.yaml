@@ -39,13 +39,13 @@ MODEL:
   - 256
   - 256
   - 256
-  NUM_LAYERS: 50
+  NUM_LAYERS: 18
 LOSS:
   TYPE: 'MSELoss'
 DETECTOR:
   NAME: 'yolo'
-  CONFIG: 'detector/yolo/cfg/yolov3-spp.cfg'
-  WEIGHTS: 'detector/yolo/data/yolov3-spp.weights'
+  CONFIG: 'detector/yolo/cfg/yolov3-tiny.cfg'
+  WEIGHTS: 'detector/yolo/data/yolov3-tiny.weights'
   NMS_THRES: 0.6
   CONFIDENCE: 0.05
 TRAIN:

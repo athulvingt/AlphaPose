@@ -29,6 +29,7 @@ class FastPose(nn.Module):
         # Imagenet pretrain model
         import torchvision.models as tm   # noqa: F401,F403
         assert cfg['NUM_LAYERS'] in [18, 34, 50, 101, 152]
+        duc_layer = 128 if cfg['NUM_LAYERS'] == 18 else 512
         x = eval(f"tm.resnet{cfg['NUM_LAYERS']}(pretrained=True)")
 
         model_state = self.preact.state_dict()
@@ -38,7 +39,7 @@ class FastPose(nn.Module):
         self.preact.load_state_dict(model_state)
 
         self.suffle1 = nn.PixelShuffle(2)
-        self.duc1 = DUC(512, 1024, upscale_factor=2, norm_layer=norm_layer)
+        self.duc1 = DUC(duc_layer, 1024, upscale_factor=2, norm_layer=norm_layer)
         self.duc2 = DUC(256, 512, upscale_factor=2, norm_layer=norm_layer)
 
         self.conv_out = nn.Conv2d(

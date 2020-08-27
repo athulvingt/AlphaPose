@@ -74,20 +74,13 @@ def parse_cfg(cfgfile):
 import pickle as pkl
 
 class MaxPoolStride1(nn.Module):
-    def __init__(self, kernel_size):
+    def __init__(self,kernel_size):
         super(MaxPoolStride1, self).__init__()
         self.kernel_size = kernel_size
-        self.pad = kernel_size - 1
 
     def forward(self, x):
-        padding = int(self.pad / 2)
-        #padded_x = F.pad(x, (0,self.pad,0,self.pad), mode="replicate")
-        #pooled_x = nn.MaxPool2d(self.kernel_size, self.pad)(padded_x)
-        #padded_x = F.pad(x, (0, self.pad, 0, self.pad), mode="replicate")
-        padded_x = F.pad(x, (padding, padding, padding, padding), mode="constant", value=0)
-        pooled_x = nn.MaxPool2d(self.kernel_size, 1)(padded_x)
-        return pooled_x
-
+        x = F.max_pool2d(F.pad(x, (0,1,0,1), mode='replicate'), 2, stride=1)
+        return x
 
 class EmptyLayer(nn.Module):
     def __init__(self):
